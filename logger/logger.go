@@ -7,11 +7,12 @@ import (
 
 func New(out io.Writer) *Logger {
 	l := log.New(out, "", log.LstdFlags)
-	return &Logger{l}
+	return &Logger{Logger: l}
 }
 
 type Logger struct {
 	*log.Logger
+	VerboseOutput bool
 }
 
 func (l *Logger) Event(eventName string) {
@@ -38,4 +39,8 @@ func (l *Logger) Timing(eventName string, nanoseconds int64) {
 
 func (l *Logger) TimingKv(eventName string, nanoseconds int64, kvs map[string]string) {
 	//l.Printf("event timing: %s: %v: %+v\n", eventName, nanoseconds, kvs)
+}
+
+func (l *Logger) Verbose() bool {
+	return l.VerboseOutput
 }
